@@ -1,6 +1,7 @@
 package ru.skillbranch.devintensive.utils
 
 import android.annotation.SuppressLint
+import ru.skillbranch.devintensive.extensions.TimeUnits
 
 object Utils {
     fun parseFullName(fullName: String?) : Pair<String?, String?> {
@@ -70,5 +71,40 @@ object Utils {
                 result += if (it.isUpperCase()) symbol?.capitalize() else symbol
             }
         return result
+    }
+
+    fun plurals(count: Long, unit: TimeUnits): String {
+        val lastDigit: String = lastDigit(count)
+
+        return when(lastDigit) {
+            "1", "01" -> {
+                if (TimeUnits.SECOND.equals(unit)) "$count секунду"
+                else if (TimeUnits.MINUTE.equals(unit)) "$count минуту"
+                else if (TimeUnits.HOUR.equals(unit)) "$count час"
+                else "$count день"
+            }
+            "2", "02", "3", "03", "4", "04"-> {
+                if (TimeUnits.SECOND.equals(unit)) "$count секунды"
+                else if (TimeUnits.MINUTE.equals(unit)) "$count минуты"
+                else if (TimeUnits.HOUR.equals(unit)) "$count часа"
+                else "$count дня"
+            }
+            else -> {
+                if (TimeUnits.SECOND.equals(unit)) "$count секунд"
+                else if (TimeUnits.MINUTE.equals(unit)) "$count минут"
+                else if (TimeUnits.HOUR.equals(unit)) "$count часов"
+                else "$count дней"
+            }
+        }
+    }
+
+    private fun lastDigit(count: Long): String {
+        return if (count in 20..99) {
+            count.toString().substring(count.toString().length - 1)
+        } else if (count >= 100) {
+            this.lastDigit(count.toString().substring(count.toString().length - 2).toLong())
+        } else {
+            count.toString()
+        }
     }
 }
