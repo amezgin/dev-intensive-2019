@@ -10,7 +10,7 @@ class ImageMessage (
     isIncoming: Boolean = false,
     date: Date = Date(),
     var image: String?
-): BaseMessage(id, from, chat, isIncoming, date) {
+) : BaseMessage(id, from, chat, isIncoming, date) {
 
     override fun formatMessage(): String =
         "id: $id. ${from?.firstName} " +

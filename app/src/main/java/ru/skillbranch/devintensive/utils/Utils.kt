@@ -10,4 +10,16 @@ object Utils {
             else -> (if (parts.get(0).isEmpty()) null else parts.get(0)) to (if (parts.get(1).isEmpty()) null else parts.get(1))
         }
     }
+
+    fun toInitials(firstName: String?, lastName: String?): String? {
+        return when {
+            firstName?.trim()?.replace("\\s+".toRegex(), " ").isNullOrEmpty()
+                    && lastName?.trim()?.replace("\\s+".toRegex(), " ").isNullOrEmpty() -> null
+            !firstName?.trim()?.replace("\\s+".toRegex(), " ").isNullOrEmpty()
+                    && lastName?.trim()?.replace("\\s+".toRegex(), " ").isNullOrEmpty() -> firstName?.substring(0, 1)?.toUpperCase()
+            firstName?.trim()?.replace("\\s+".toRegex(), " ").isNullOrEmpty()
+                    && !lastName?.trim()?.replace("\\s+".toRegex(), " ").isNullOrEmpty() -> lastName?.substring(0, 1)?.toUpperCase()
+            else -> firstName?.trim()?.replace("\\s+".toRegex(), " ")?.substring(0, 1)?.toUpperCase() + lastName?.trim()?.replace("\\s+".toRegex(), " ")?.substring(0, 1)?.toUpperCase()
+        }
+    }
 }
