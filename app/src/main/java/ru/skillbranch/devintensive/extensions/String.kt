@@ -16,3 +16,7 @@ fun String.truncate(length: Int = 16): String {
         return this.trim()
     }
 }
+
+fun String.stripHtml(): String {
+    return this.replace("<[^<]*?>|&\\d+;".toRegex(), "").replace("\\s+".toRegex(), " ")
+}
