@@ -96,10 +96,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun handleOnClickSend() {
-        val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString().toLowerCase())
-        messageEt.setText("")
-        val (r, g, b) = color
-        benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
-        textTxt.text = phrase
+        val validation = benderObj.answersValidation(messageEt.text.toString())
+        if (benderObj.answersValidation(messageEt.text.toString()) == Bender.Validation.OK) {
+            val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString().toLowerCase())
+            messageEt.setText("")
+            val (r, g, b) = color
+            benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
+            textTxt.text = phrase
+        } else {
+            textTxt.text = "${validation.msg}\n${benderObj.askQuestion()}"
+        }
     }
 }

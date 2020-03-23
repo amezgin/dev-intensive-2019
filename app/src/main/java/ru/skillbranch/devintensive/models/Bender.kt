@@ -29,6 +29,55 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
         }
     }
 
+    fun answersValidation(data: String): Validation{
+        return when (question) {
+            Question.NAME -> {
+                when {
+                    data.isBlank() -> Validation.ERROR_NAME
+                    data[0].isUpperCase() -> Validation.OK
+                    else -> Validation.ERROR_NAME
+                }
+            }
+            Question.PROFESSION -> {
+                when {
+                    data.isBlank() -> Validation.ERROR_PROFESSION
+                    data[0].isLowerCase() -> Validation.OK
+                    else -> Validation.ERROR_PROFESSION
+                }
+            }
+            Question.MATERIAL -> {
+                when {
+                    data.isBlank() -> Validation.ERROR_MATERIAL
+                    data.all{!it.isDigit()} -> Validation.OK
+                    else -> Validation.ERROR_MATERIAL
+                }
+            }
+            Question.BDAY -> {
+                when {
+                    data.isBlank() -> Validation.ERROR_BDAY
+                    data.all { it.isDigit() } -> Validation.OK
+                    else -> Validation.ERROR_BDAY
+                }
+            }
+            Question.SERIAL -> {
+                when {
+                    data.isBlank() -> Validation.ERROR_SERIAL
+                    data.all { it.isDigit() } && data.length == 7 -> Validation.OK
+                    else -> Validation.ERROR_SERIAL
+                }
+            }
+            Question.IDLE -> Validation.OK
+        }}
+
+    enum class Validation(val msg: String) {
+        OK(""),
+        ERROR_NAME("Имя должно начинаться с заглавной буквы"),
+        ERROR_PROFESSION("Профессия должна начинаться со строчной буквы"),
+        ERROR_MATERIAL("Материал не должен содержать цифр"),
+        ERROR_BDAY("Год моего рождения должен содержать только цифры"),
+        ERROR_SERIAL("Серийный номер содержит только цифры, и их 7")
+    }
+
     enum class Status(val color: Triple<Int, Int, Int>) {
         NORMAL(Triple(255, 255, 255)),
         WARNING(Triple(255, 120, 0)),
